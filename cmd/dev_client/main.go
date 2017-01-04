@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"os/user"
 	"time"
@@ -118,7 +119,7 @@ func main() {
 		Host:        hostname,
 		AuthHandler: authHandler,
 		KeyFolder:   keyFolder,
-		TLSConfig:   tlsConfig,
+		Client:      &http.Client{Transport: &http.Transport{TLSClientConfig: tlsConfig}},
 	}
 
 	client.Run(cli, &client.VisibilityParams{log.Printf, log.Printf, func(map[string]uint64) {}}, tokenEndpoint, clientID)
